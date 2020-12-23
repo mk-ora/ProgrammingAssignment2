@@ -4,9 +4,9 @@
 ## makeCacheMatrix creates a special "matrix" object that 
 ## can cache its inverse
 makeCacheMatrixfx <-function(x=matrix()){
-  inv <-NULL
-  set <- function (y){
-    x <<- y
+  inv <-NULL             
+  set <- function (y){          # Set matrix value
+    x <<- y                     # cache the matrix
     inv <<-NULL
   }
   
@@ -25,14 +25,19 @@ makeCacheMatrixfx <-function(x=matrix()){
 ## inverse from the cache.
 
 cacheSolve <-function(x, ...){
-  inv <- x$getInverse()
-  if (!is.null(inv)) {
+  inv <- x$getInverse()                   # if an inverse has already been calculated this gets it
+  if (!is.null(inv)) {                    # check to see if cacheSolve has been run before
+          if(x$set() == x$get()) {        # check that matrix hasn't changed, and if it hasn't, sends a text message and returns the cached matrix
     message("getting cached data")
+    mat <- x$get()
+    inv <- solve(mat, ...)        
+    x$setInverse(inv)
     return(inv)
- 
-  }
-  mat <- x$get()
-  inv <- solve(mat, ...)
+   }
+  #otherwise
+  y <- x$get()
+  x$set(y)
+  inv <- solve(y, ...)
   x$setInverse(inv)
   inv
 }
