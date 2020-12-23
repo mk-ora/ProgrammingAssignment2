@@ -35,10 +35,10 @@ cacheSolve <-function(x, ...){
     return(inv)
    }
   #otherwise
-  y <- x$get()
-  x$set(y)
-  inv <- solve(y, ...)
-  x$setInverse(inv)
-  inv
+  y <- x$get()                 # run the get function to get the value of the input matrix
+  x$set(y)                     # run the set function on the input matrix to cache it
+  inv <- solve(y, ...)         # compute the value of the inverse of the input matrix
+  x$setInverse(inv)            # run the setinverse function on the inverse to cache the inverse
+  inv                          # return the inverse
 }
       
